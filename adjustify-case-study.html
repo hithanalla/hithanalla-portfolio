@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adjustify — Case Study · Hitha Nalla</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lavender: #C4B5FD;
+    --lav-light: #EDE9FF;
+    --lav-dark: #4C3BAA;
+    --lav-deep: #1A0F3C;
+    --ink: #1A1A2E;
+    --cream: #FAFAF7;
+    --soft: #F4F0E8;
+    --coral: #FF6B5B;
+    --mint: #3ECFB2;
+    --lemon: #FFE566;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; cursor: none; }
+  .cursor { width: 12px; height: 12px; background: var(--lavender); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; mix-blend-mode: multiply; }
+  .cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--lavender); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.25s ease; mix-blend-mode: multiply; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(250,250,247,0.9); backdrop-filter: blur(12px); }
+  .nav-logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.1rem; color: var(--ink); text-decoration: none; letter-spacing: -0.03em; }
+  .nav-back { font-size: 0.85rem; font-weight: 500; color: var(--ink); text-decoration: none; opacity: 0.5; transition: opacity 0.2s; }
+  .nav-back:hover { opacity: 1; }
+
+  /* Hero */
+  .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; background: var(--lav-deep); }
+  .hero-blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.25; pointer-events: none; }
+  .b1 { width: 600px; height: 600px; background: var(--lavender); top: -150px; right: -100px; }
+  .b2 { width: 350px; height: 350px; background: var(--coral); bottom: -100px; left: -50px; opacity: 0.2; }
+  .b3 { width: 250px; height: 250px; background: var(--lemon); top: 30%; left: 25%; opacity: 0.15; }
+  .hero-tag { display: inline-flex; align-items: center; background: rgba(196,181,253,0.15); border: 1px solid rgba(196,181,253,0.3); color: var(--lavender); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; width: fit-content; animation: fadeUp 0.6s ease both; }
+  .hero-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(3rem, 7vw, 6rem); line-height: 0.95; letter-spacing: -0.04em; color: var(--cream); max-width: 820px; animation: fadeUp 0.7s 0.1s ease both; }
+  .hero-title em { font-style: italic; color: var(--lavender); }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); animation: fadeUp 0.7s 0.2s ease both; }
+  .meta-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,247,0.35); margin-bottom: 0.3rem; }
+  .meta-value { font-size: 0.9rem; font-weight: 400; color: rgba(250,250,247,0.8); }
+
+  /* Badge — self-initiated callout */
+  .self-initiated {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--lemon); color: var(--ink);
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.4rem 1rem; border-radius: 100px;
+    margin-bottom: 1.5rem; width: fit-content;
+  }
+
+  /* Body */
+  .case-body { max-width: 780px; margin: 0 auto; padding: 5rem 3rem; }
+  .case-section { margin-bottom: 5rem; }
+  .case-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lav-dark); margin-bottom: 0.75rem; }
+  .case-h2 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); margin-bottom: 1.25rem; }
+  .case-p { font-size: 1rem; font-weight: 300; line-height: 1.85; color: var(--ink); opacity: 0.75; margin-bottom: 1rem; }
+  .case-p strong { opacity: 1; font-weight: 500; }
+
+  .highlight { background: var(--lav-light); border-left: 3px solid var(--lavender); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .highlight p { font-size: 0.95rem; font-weight: 400; line-height: 1.7; color: var(--lav-dark); margin: 0; }
+  .highlight p strong { font-weight: 600; }
+
+  /* Steps */
+  .steps { margin: 2rem 0; }
+  .step { display: flex; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(26,26,46,0.07); }
+  .step:last-child { border-bottom: none; }
+  .step-num { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.8rem; letter-spacing: -0.04em; color: var(--lavender); opacity: 0.5; min-width: 40px; line-height: 1; padding-top: 2px; }
+  .step-title { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.9rem; font-weight: 300; color: var(--ink); opacity: 0.6; line-height: 1.7; }
+
+  /* Image placeholders */
+  .img-placeholder {
+    background: var(--lav-deep);
+    border-radius: 20px;
+    margin: 2rem 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 3rem;
+    border: 1.5px dashed rgba(196,181,253,0.3);
+    position: relative; overflow: hidden;
+  }
+  .img-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(196,181,253,0.08) 0%, transparent 70%);
+  }
+  .img-placeholder-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
+  .img-placeholder-label { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(196,181,253,0.5); margin-bottom: 0.4rem; }
+  .img-placeholder-hint { font-size: 0.78rem; font-weight: 300; color: rgba(250,250,247,0.25); line-height: 1.5; }
+  .img-placeholder.tall { min-height: 320px; }
+  .img-placeholder.short { min-height: 200px; }
+
+  /* Two-up images */
+  .img-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+
+  /* Design decisions */
+  .decisions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .decision { background: var(--soft); border-radius: 16px; padding: 1.5rem; }
+  .decision-q { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lav-dark); margin-bottom: 0.5rem; }
+  .decision-a { font-size: 0.9rem; font-weight: 300; color: var(--ink); opacity: 0.7; line-height: 1.6; }
+  .decision-a strong { font-weight: 500; opacity: 1; }
+
+  /* Problem / solution split */
+  .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+  .ps-card { border-radius: 16px; padding: 1.5rem; }
+  .ps-card.problem { background: #1A0A0A; }
+  .ps-card.solution { background: var(--lav-light); }
+  .ps-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+  .ps-card.problem .ps-label { color: rgba(255,107,91,0.7); }
+  .ps-card.solution .ps-label { color: var(--lav-dark); }
+  .ps-item { font-size: 0.88rem; line-height: 1.6; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; gap: 0.6rem; }
+  .ps-card.solution .ps-item { border-color: rgba(76,59,170,0.1); }
+  .ps-item:last-child { border-bottom: none; }
+  .ps-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+  .ps-card.problem .ps-item { color: rgba(250,250,247,0.65); }
+  .ps-card.solution .ps-item { color: var(--lav-dark); }
+
+  /* What I learned cards */
+  .learnings { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .learning { background: var(--lav-deep); border-radius: 16px; padding: 1.5rem; }
+  .learning-icon { font-size: 1.3rem; margin-bottom: 0.6rem; }
+  .learning-title { font-size: 0.88rem; font-weight: 500; color: var(--lavender); margin-bottom: 0.4rem; }
+  .learning-desc { font-size: 0.8rem; font-weight: 300; color: rgba(250,250,247,0.45); line-height: 1.6; }
+
+  /* Tags */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag { font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.9rem; border-radius: 100px; background: var(--lav-light); color: var(--lav-dark); }
+
+  /* Pullquote */
+  .pullquote { padding: 3rem; margin: 3rem 0; background: var(--lav-deep); border-radius: 20px; text-align: center; }
+  .pullquote p { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(1.2rem, 2.5vw, 1.55rem); font-weight: 300; line-height: 1.5; color: var(--cream); letter-spacing: -0.02em; }
+  .pullquote span { display: block; margin-top: 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 400; color: var(--lavender); letter-spacing: 0.05em; text-transform: uppercase; font-style: normal; }
+
+  .divider { height: 1px; background: rgba(26,26,46,0.08); margin: 0 3rem; }
+
+  /* Next — back to homepage */
+  .next-project { background: var(--ink); padding: 5rem 3rem; text-align: center; }
+  .next-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,247,0.3); margin-bottom: 1rem; }
+  .next-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; color: var(--cream); margin-bottom: 0.5rem; }
+  .next-sub { font-size: 0.95rem; color: rgba(250,250,247,0.5); margin-bottom: 2rem; font-weight: 300; }
+  .btn-lav { background: var(--lavender); color: var(--lav-deep); padding: 0.85rem 2rem; border-radius: 100px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; }
+  .btn-lav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,181,253,0.3); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="hithanalla-portfolio.html" class="nav-logo">HN.</a>
+  <a href="hithanalla-portfolio.html" class="nav-back">← Back to work</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-blob b1"></div>
+  <div class="hero-blob b2"></div>
+  <div class="hero-blob b3"></div>
+  <div class="hero-tag">Case Study 04</div>
+  <h1 class="hero-title">An idea I had.<br>A product I <em>built.</em></h1>
+  <div class="hero-meta">
+    <div class="meta-item"><p class="meta-label">Project</p><p class="meta-value">Adjustify</p></div>
+    <div class="meta-item"><p class="meta-label">Type</p><p class="meta-value">Self-initiated Product Design</p></div>
+    <div class="meta-item"><p class="meta-label">Tools</p><p class="meta-value">Figma · User Research</p></div>
+    <div class="meta-item"><p class="meta-label">Status</p><p class="meta-value">Concept · Figma Prototype</p></div>
+    <div class="meta-item"><p class="meta-label">Category</p><p class="meta-value">Personal Finance · Budgeting</p></div>
+  </div>
+</section>
+
+<div class="case-body">
+
+  <!-- Overview -->
+  <div class="case-section reveal">
+    <div class="self-initiated">✦ Self-initiated — no brief, no client, no deadline</div>
+    <p class="case-label">Overview</p>
+    <h2 class="case-h2">Nobody asked me to build this. That's exactly why I did.</h2>
+    <p class="case-p">Adjustify is a budgeting tool I conceived, designed, and prototyped from scratch — starting with a problem I noticed, through user research, to a full Figma prototype. No client brief. No professor prompt. Just a gap I spotted and the instinct to fill it.</p>
+    <p class="case-p">Most budgeting apps are built around tracking what you already spent. Adjustify is built around adjusting in real time — the idea that your budget shouldn't be a report card for last month, it should be a live tool that helps you make decisions today.</p>
+    <div class="highlight">
+      <p><strong>The insight:</strong> People don't fail at budgeting because they don't care. They fail because most budgeting tools show you what went wrong after it's too late to do anything about it.</p>
+    </div>
+  </div>
+
+  <!-- The Problem -->
+  <div class="case-section reveal">
+    <p class="case-label">The Problem</p>
+    <h2 class="case-h2">What's broken about budgeting apps right now.</h2>
+    <p class="case-p">I started by talking to people around me — friends, classmates, family — about how they actually manage money. The pattern was consistent: almost everyone had tried a budgeting app, and almost everyone had stopped using it within a few weeks.</p>
+
+    <div class="ps-grid">
+      <div class="ps-card problem">
+        <p class="ps-label">What users said</p>
+        <div class="ps-item"><div class="ps-dot" style="background:#FF6B5B;"></div>"I check it at the end of the month and feel bad"</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#FF6B5B;"></div>"It just tells me I overspent — doesn't help me fix it"</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#FF6B5B;"></div>"Too many categories, I give up setting it up"</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#FF6B5B;"></div>"I forget to check it so it becomes useless"</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#FF6B5B;"></div>"It makes me anxious so I avoid it"</div>
+      </div>
+      <div class="ps-card solution">
+        <p class="ps-label">What Adjustify solves</p>
+        <div class="ps-item"><div class="ps-dot" style="background:#4C3BAA;"></div>Real-time budget status — not just end-of-month reports</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#4C3BAA;"></div>Actionable suggestions: "move $40 from dining to cover this"</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#4C3BAA;"></div>Simple setup — 3 categories to start, add more later</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#4C3BAA;"></div>Gentle nudges mid-month, not guilt at month-end</div>
+        <div class="ps-item"><div class="ps-dot" style="background:#4C3BAA;"></div>Calm, non-judgmental visual language throughout</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Design process -->
+  <div class="case-section reveal">
+    <p class="case-label">Design Process</p>
+    <h2 class="case-h2">From napkin sketch to Figma prototype.</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <p class="step-title">Talked to real people first</p>
+          <p class="step-desc">Before opening Figma, I had informal conversations with 8 people about their budgeting habits. The goal wasn't a structured user interview — it was understanding the emotional relationship people have with their finances. Most apps design for the rational user. Real people are emotional about money.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <p class="step-title">Defined the core use case narrowly</p>
+          <p class="step-desc">Most budgeting apps try to do everything — tracking, goals, investments, subscriptions. Adjustify does one thing: helps you adjust your spending in real time when you're heading off track. Scope constraint as a design principle, not a limitation.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <p class="step-title">Sketched the core flows by hand</p>
+          <p class="step-desc">Onboarding, the main dashboard, and the "I'm overspending" intervention flow were sketched on paper first. Getting the logic right before touching Figma meant I didn't waste time designing something that didn't make sense to use.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <p class="step-title">Built the full prototype in Figma</p>
+          <p class="step-desc">Designed every screen — onboarding, dashboard, category breakdown, adjustment flow, and settings. Used a soft, calm colour palette deliberately — most finance apps use red for "over budget" which triggers anxiety. Adjustify uses amber and soft greens to signal "heads up" rather than "you failed."</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <p class="step-title">Tested with the same people I interviewed</p>
+          <p class="step-desc">Brought the prototype back to three of the original eight people. Key feedback: the adjustment suggestion feature was the most liked — and the onboarding had one step too many. Iterated on both before considering the prototype complete.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screens -->
+  <div class="case-section reveal">
+    <p class="case-label">The Designs</p>
+    <h2 class="case-h2">Key screens from the prototype.</h2>
+    <p class="case-p">Drop your Figma screenshots below — these placeholders mark where each screen should live.</p>
+
+    <div class="img-placeholder tall">
+      <div class="img-placeholder-icon">📱</div>
+      <p class="img-placeholder-label">Onboarding flow — 3 screens</p>
+      <p class="img-placeholder-hint">Replace with your Figma onboarding screenshots</p>
+    </div>
+
+    <div class="img-two-up">
+      <div class="img-placeholder short">
+        <div class="img-placeholder-icon">🏠</div>
+        <p class="img-placeholder-label">Main dashboard</p>
+        <p class="img-placeholder-hint">Your Figma dashboard screen</p>
+      </div>
+      <div class="img-placeholder short">
+        <div class="img-placeholder-icon">⚡</div>
+        <p class="img-placeholder-label">Adjustment flow</p>
+        <p class="img-placeholder-hint">The "I'm overspending" intervention screen</p>
+      </div>
+    </div>
+
+    <div class="img-placeholder short">
+      <div class="img-placeholder-icon">📊</div>
+      <p class="img-placeholder-label">Category breakdown view</p>
+      <p class="img-placeholder-hint">Your Figma category detail screen</p>
+    </div>
+  </div>
+
+  <!-- Design decisions -->
+  <div class="case-section reveal">
+    <p class="case-label">Design Decisions</p>
+    <h2 class="case-h2">The intentional choices behind the UI.</h2>
+
+    <div class="decisions">
+      <div class="decision">
+        <p class="decision-q">Colour palette</p>
+        <p class="decision-a"><strong>Soft purples and warm neutrals</strong> — finance apps default to blue (trust) or red (alert). Adjustify uses lavender to feel approachable, not corporate, and amber instead of red for warnings.</p>
+      </div>
+      <div class="decision">
+        <p class="decision-q">Information density</p>
+        <p class="decision-a"><strong>One number at a time</strong> — the dashboard shows your most important number front and centre. Category detail is one tap away, never forced on the user at first glance.</p>
+      </div>
+      <div class="decision">
+        <p class="decision-q">Onboarding length</p>
+        <p class="decision-a"><strong>3 steps max</strong> — most budgeting apps lose users in setup. Adjustify gets you to a working budget in under 2 minutes by starting with just three spending categories.</p>
+      </div>
+      <div class="decision">
+        <p class="decision-q">Language tone</p>
+        <p class="decision-a"><strong>Encouraging, never judging</strong> — "You've got £40 left in dining this week — want to adjust?" not "Warning: dining budget exceeded." Same information, completely different emotional response.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What I learned -->
+  <div class="case-section reveal">
+    <p class="case-label">Reflection</p>
+    <h2 class="case-h2">What building your own product teaches you.</h2>
+    <p class="case-p">Every other project in this portfolio had a client, a brief, or a team. Adjustify had none of those — just a problem I noticed and a blank Figma canvas. That changes everything about how you work.</p>
+    <p class="case-p">Without a client to validate decisions, you have to validate them yourself — which means talking to users earlier, testing assumptions more honestly, and being willing to throw away a design you spent hours on because it didn't hold up in practice. The onboarding iteration after user testing is a small example of that: I was attached to the 4-step flow, and the feedback was clear it needed to be 3. It did.</p>
+
+    <div class="learnings">
+      <div class="learning">
+        <div class="learning-icon">🔍</div>
+        <div class="learning-title">Scope is a design decision</div>
+        <div class="learning-desc">Doing one thing well beats doing everything badly. The hardest part of Adjustify was deciding what to leave out.</div>
+      </div>
+      <div class="learning">
+        <div class="learning-icon">💬</div>
+        <div class="learning-title">Emotion drives product adoption</div>
+        <div class="learning-desc">People don't abandon budgeting apps because they're hard to use. They abandon them because they feel bad using them. Design for the feeling, not just the function.</div>
+      </div>
+      <div class="learning">
+        <div class="learning-icon">🔄</div>
+        <div class="learning-title">Attachment is the enemy of iteration</div>
+        <div class="learning-desc">The best design decision I made was throwing away the 4-step onboarding I'd spent hours on. User feedback doesn't care about your sunk cost.</div>
+      </div>
+      <div class="learning">
+        <div class="learning-icon">🚀</div>
+        <div class="learning-title">Starting is the whole trick</div>
+        <div class="learning-desc">Self-initiated work doesn't wait for permission. The fact that it exists at all is the point — it shows you create outside of what's asked of you.</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag">Figma</span>
+      <span class="tag">Product Design</span>
+      <span class="tag">User Research</span>
+      <span class="tag">Prototyping</span>
+      <span class="tag">Self-initiated</span>
+      <span class="tag">Fintech</span>
+      <span class="tag">Mobile UI</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="divider"></div>
+
+<div class="pullquote reveal" style="margin: 0 3rem 3rem;">
+  <p>"Nobody asked me to build this. That's exactly why I did — because the best signal that you care about product is that you make things when there's no grade, no brief, and no deadline."</p>
+  <span>— Hitha Nalla, Adjustify 2024</span>
+</div>
+
+<section class="next-project">
+  <p class="next-label">You've seen it all</p>
+  <h2 class="next-title">Let's work together.</h2>
+  <p class="next-sub">Back to the homepage — or drop me an email directly.</p>
+  <a href="hithanalla-portfolio.html" class="btn-lav">Back to homepage →</a>
+</section>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 6 + 'px'; cursor.style.top = my - 6 + 'px';
+  });
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12; ry += (my - ry - 18) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2.5)'; ring.style.transform = 'scale(1.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 60); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
